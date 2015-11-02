@@ -1,0 +1,11 @@
+# Site settings
+title: Rsalinas's blog
+email: 
+description: "rsalinas"
+baseurl: ""
+url: "https://rsalinas.github.io/"
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
