@@ -7,6 +7,22 @@ categories: linux bash
 
 Sometimes we would like to "conserve" the sudo privilege for later using it, without executing as root the full script.
 
+Simple way:
+
+{% highlight console %}
+#! /bin/bash
+
+sudo -v
+while [ -d /proc/$$  ]; do sudo -nv; sleep 3; done &
+
+... your code ... 
+{% endhighlight %}
+
+It will launch a background process that will refresh sudo's timestamp periodically as long as the main script is working. 
+A disadvantage is that it fill write lines periodically to the auth.log.
+
+A more complex and rather beautiful approach based on bash coprocesses:
+
 {% highlight console %}
 function sudo_init  {
 	! [ "${SUDO[0]:-}" == "" ] && return	
