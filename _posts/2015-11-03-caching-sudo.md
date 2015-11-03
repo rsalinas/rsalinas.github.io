@@ -38,12 +38,15 @@ Then, whenever we need to run something as root, we use "sudo_run" instead of su
 {% highlight console %}
 if $SUDO_REQUIRED
 then
-	sudo_init
-	if ! sudo_run true
+	sudo_init		## Ask for password here
+	if ! sudo_run true 	## Check everything is ok
 	then
 		die "Cannot run sudo"
 	fi 	
 fi
+
+make 
+sudo_run make install        ## This might happen minutes later, but the password will not be asked again
 
 {% endhighlight %}
 
