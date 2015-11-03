@@ -39,7 +39,7 @@ Then, whenever we need to run something as root, we use "sudo_run" instead of su
 if $SUDO_REQUIRED
 then
 	sudo_init		## Ask for password here
-	if ! sudo_run true 	## Check everything is ok
+	if ! sudo_run 	 	## Check everything is ok
 	then
 		die "Cannot run sudo"
 	fi 	
