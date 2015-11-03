@@ -2,7 +2,7 @@
 layout: post
 title:  "Caching sudo privileges" 
 date:   2015-11-03 21:00
-categories: Linux sudo root
+categories: linux bash
 ---
 
 Sometimes we would like to "conserve" the sudo privilege for later using it, without executing as root the full script.
@@ -11,7 +11,7 @@ Sometimes we would like to "conserve" the sudo privilege for later using it, wit
 function sudo_init  {
 	! [ "${SUDO[0]:-}" == "" ] && return	
 	coproc SUDO {
-		sudo $SHELL -c 'while read cmd
+		sudo "$@" $SHELL -c 'while read cmd
 			do
 				sh -xc "$cmd" </dev/null >&2
 				echo $? 
@@ -51,7 +51,17 @@ sudo_run respects multiple parameters given in the command line, as a normal sud
 
 
 {% highlight console %}
-sudo_run echo "  a  "  "b c"
+$ sudo_run echo "  a  "  "b c"
+  a
+b c
+{% endhighlight %}
+
+Optionally, extra options can be given for sudo:
+
+{% highlight console %}
+$ sudo_init -u daemon
+$ sudo_run whoami
+daemon
 {% endhighlight %}
 
 It uses bash's coprocesses.  The sudo command is launched in the background and this as soon as the main script ends, which makes the setup very secure.
