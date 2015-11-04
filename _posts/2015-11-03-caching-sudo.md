@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Caching sudo privileges" 
+title:  "Caching sudo privileges"
 date:   2015-11-03 21:00
 categories: linux bash
 ---
@@ -15,33 +15,34 @@ Simple way:
 sudo -v
 while [ -d /proc/$$  ]; do sudo -nv; sleep 3; done &
 
-... your code ... 
+... your code ...
 {% endhighlight %}
 
-It will launch a background process that will refresh sudo's timestamp periodically as long as the main script is working. 
-A disadvantage is that it fill write lines periodically to the auth.log.
+It will launch a background process that will refresh sudo's timestamp periodically as long as the main script is working.
+A disadvantage is that it will write lines periodically to the system logs.
 
 A more complex and rather beautiful approach based on bash coprocesses:
 
 {% highlight console %}
 function sudo_init  {
-	! [ "${SUDO[0]:-}" == "" ] && return	
+	[ "${SUDO[0]:-}" != "" ] && return     ## Ignore multiple inits	
 	coproc SUDO {
 		sudo "$@" $SHELL -c 'while read cmd
 			do
-				sh -xc "$cmd" </dev/null >&2
-				echo $? 
+				sh -exc "$cmd" </dev/null >&2
+				echo $?
 			done'
 	}
 }
 
 function sudo_run  {
+	echo -n "cd '$PWD' && " >&${SUDO[1]}      ## Go to the current dir
 	for w in "$@"
-	do 
-		echo -n "'$w' " >&${SUDO[1]}
-	done 
-	echo >&${SUDO[1]}
-	read -u ${SUDO[0]}
+	do
+		echo -n "'$w' " >&${SUDO[1]}      ## Quote each word
+	done
+	echo >&${SUDO[1]}			  ## End the line
+	read -u ${SUDO[0]}			  ## Read response
 	return $REPLY
 }
 {% endhighlight %}
@@ -61,7 +62,7 @@ then
 	fi 	
 fi
 
-make 
+make
 sudo_run make install        ## This might happen minutes later, but the password will not be asked again
 
 {% endhighlight %}
