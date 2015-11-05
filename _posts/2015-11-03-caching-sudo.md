@@ -2,7 +2,7 @@
 layout: post
 title:  "Caching sudo privileges"
 date:   2015-11-03 21:00
-categories: linux bash
+categories: linux security
 ---
 
 Sometimes we would like to "conserve" the sudo privilege for later using it, without executing as root the full script.
