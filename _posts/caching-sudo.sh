@@ -4,16 +4,16 @@ function sudo_init  {
 		sudo "$@" $SHELL -c 'while read cmd
 			do
 				sh -xc "$cmd" </dev/null >&2
-				echo $? 
+				echo $?
 			done'
 	}
 }
 
 function sudo_run  {
 	for w in "$@"
-	do 
+	do
 		echo -n "'$w' " >&${SUDO[1]}
-	done 
+	done
 	echo >&${SUDO[1]}
 	read -u ${SUDO[0]}
 	return $REPLY

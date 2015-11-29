@@ -8,7 +8,7 @@ categories: linux security
 sudo-askpass-timeout.sh:
 
 {% highlight console %}
-#! /bin/bash -eu 
+#! /bin/bash -eu
 
 # "read" will not reset the terminal echo mode if it is canceled. Let's save/restore the tty status.
 stty_orig=`stty -g`
@@ -36,7 +36,7 @@ sudo-timeout.sh:
 export SUDO_ASKPASS="$(dirname "$0")/sudo-askpass-timeout.sh"
 export READ_TIMEOUT=60
 if [ $# -ge 3  ] && [ "$1" = "-t" ]
-then 
+then
 	shift
 	READ_TIMEOUT=$1
 	shift
