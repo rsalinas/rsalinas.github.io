@@ -9,4 +9,4 @@ I have been working in adding support to Qt's command line parsing.
 
 More documentation can be found at the project's page itself.
 
-(https://github.com/rsalinas/xqtcmdline)
+[The repository](https://github.com/rsalinas/xqtcmdline)
