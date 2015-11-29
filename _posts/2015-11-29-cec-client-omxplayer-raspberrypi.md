@@ -5,7 +5,7 @@ date:   2015-11-29 22:30
 categories: raspberrypi
 ---
 
-I have a Raspberry Pi connected to my televisor and despite having tried OpenElec as a media center, I have other services in that machine and I am just too console-oriented to do select with a graphical interface the media I want to play.  I use a laptop to start the films, but I was missing a way to pause/rewind the films.  I finally solved it in a beautiful way, using HDMI CEC.
+I have a Raspberry Pi connected to my televisor (with HDMI) and despite having tried OpenElec as a media center, I have other services running on that machine and I am just too console-oriented to select with a graphical interface the media I want to play.  I use a laptop to start the films, but I was missing a way to pause/rewind the playing.  I finally solved it in a beautiful way, using HDMI CEC.
 
 HDMI is not just a standard for transferring video.  At last they added control commands.  For example, a televisor can ask the player to pause, by using the televisor's remote command, instead of having to use an extra remote command.  The RPi can also ask the tv to switch on and to change to the relevant HDMI input.  Fantastic.
 
@@ -78,6 +78,10 @@ Of course we have to modify slightly `omxplayer` (which is a script) and prefix 
 
 We could also  always run `tm -wt omxplayer ...` or have an alias for that.
 
+## Configuring the televisor
+
+You have to set up your televisor so that it will use CEC with your Raspberry Pi.
+
 ## Future work
 
-A nice feature would be to just launch cec-client while we are running omxplayer.  This would save some processor time while we are not using it, and also it would not interfere in case we use other CEC clients in the RPi.
+A nice feature would be to just launch cec-client while we are running omxplayer.  This would save some processor time while we are not using it, and also it would not interfere in case we use other CEC clients in the RPi.  The challenge here is to cleanly kill this script (including its two coprocesses) when omxplayer ends.
