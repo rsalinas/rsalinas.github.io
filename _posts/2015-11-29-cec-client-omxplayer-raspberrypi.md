@@ -73,3 +73,10 @@ do
 done
 {% endhighlight %}
 
+Of course we have to modify slightly `omxplayer` (which is a script) and prefix with `tm -wt` the invocation of `omxplayer.bin`.  That's all. 
+
+We could also  always run "tm -wt omxplayer ..." or have an alias for that. 
+
+# Future work #
+
+A nice feature would be to just launch cec-client while we are running omxplayer.  This would save some processor time while we are not using it, and also it would not interfere in case we use other CEC clients in the RPi.
