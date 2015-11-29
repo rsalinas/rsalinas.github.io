@@ -5,17 +5,16 @@ date:   2015-11-29 22:30
 categories: raspberrypi
 ---
 
-HDMI is not just a standard for transferring video.  At last they added some control flows, which lets different devices to communicate control commands.  For example, a televisor can ask the player to pause, by using the televisor's remote command, instead of having to use an extra remote command.
+I have a Raspberry Pi connected to my televisor and despite having tried OpenElec as a media center, I have other services in that machine and I am just too console-oriented to do select with a graphical interface the media I want to play.  I use a laptop to start the films, but I was missing a way to pause/rewind the films.  I finally solved it in a beautiful way, using HDMI CEC.
 
-In Raspbian the package "cec-client" is available. This package lets us issue commands on other devices, and read the events happening in the CEC.
+HDMI is not just a standard for transferring video.  At last they added control commands.  For example, a televisor can ask the player to pause, by using the televisor's remote command, instead of having to use an extra remote command.  The RPi can also ask the tv to switch on and to change to the relevant HDMI input.  Fantastic.
 
 The challenges:
 
-- Get the information from the remote command. cec-client provides these push/release events.
-- Send this information to the running omxplayer.  We will use a tool called [terminal mixer](http://vicerveza.homeunix.net/~viric/soft/tm) (multiplex terminal). The idea es simple: we run "tm -wt omxplayer", and then at the same time we can send commands to it from anywhere else by means of `echo -n COMMAND | tm -t`.  This tool is very easily installed by means of ./configure, make and make install.
+- Get the information from the remote command. cec-client provides these push/release events.  In Raspbian we can simply `apt-get install cec-client`.
+- Send this information to the running `omxplayer`.  We will use a cool tool called [terminal mixer](http://vicerveza.homeunix.net/~viric/soft/tm) (multiplex terminal), written by Lluis Battle i Rosell. The idea es simple: we run `tm -wt omxplayer`, and then at the same time we can send commands to it from anywhere else by means of `echo -n COMMAND | tm -t`.  This tool is very easily installed by means of `./configure && make && make install`.
 
-This script uses a beautiful feature of bash and other shell interpreters, namely, the coprocesses.
-
+This script uses a beautiful feature of bash and other shell interpreters, namely, the *coprocesses*.
 
 {% highlight console %}
 #! /bin/bash -eu
@@ -35,7 +34,7 @@ function cmd {
 	echo -ne "$1" >&"${tm[1]}" || echo -e "Cannot send command\a"
 }
 
-## Let's read from the coprocessor's output.
+# Let's read from the coprocessor's output.
 while read -u ${cecclient[0]} L
 do
 	echo $L    ## Debugging information
@@ -73,10 +72,12 @@ do
 done
 {% endhighlight %}
 
-Of course we have to modify slightly `omxplayer` (which is a script) and prefix with `tm -wt` the invocation of `omxplayer.bin`.  That's all. 
+## Launching omxplayer
 
-We could also  always run "tm -wt omxplayer ..." or have an alias for that. 
+Of course we have to modify slightly `omxplayer` (which is a script) and prefix with `tm -wt` the invocation of `omxplayer.bin`.  That's all.
 
-# Future work #
+We could also  always run `tm -wt omxplayer ...` or have an alias for that.
+
+## Future work
 
 A nice feature would be to just launch cec-client while we are running omxplayer.  This would save some processor time while we are not using it, and also it would not interfere in case we use other CEC clients in the RPi.
