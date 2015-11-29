@@ -12,7 +12,7 @@ In Raspbian the package "cec-client" is available. This package lets us issue co
 The challenges:
 
 - Get the information from the remote command. cec-client provides these push/release events.
-- Send this information to the running omxplayer.  We will use a tool called [terminal mixer](http://vicerveza.homeunix.net/~viric/soft/tm) (multiplex terminal). The idea es simple: we run "tm -wt omxplayer", and then at the same time we can send commands to it from anywhere else by means of "echo -n COMMAND | tm -t".  This tool is very easily installed by means of ./configure, make and make install.
+- Send this information to the running omxplayer.  We will use a tool called [terminal mixer](http://vicerveza.homeunix.net/~viric/soft/tm) (multiplex terminal). The idea es simple: we run "tm -wt omxplayer", and then at the same time we can send commands to it from anywhere else by means of `echo -n COMMAND | tm -t`.  This tool is very easily installed by means of ./configure, make and make install.
 
 This script uses a beautiful feature of bash and other shell interpreters, namely, the coprocesses.
 
