@@ -12,7 +12,7 @@ HDMI is not just a standard for transferring video.  At last they added control 
 The challenges:
 
 - Get the information from the remote command. cec-client provides these push/release events.  In Raspbian we can simply `apt-get install cec-client`.
-- Send this information to the running `omxplayer`.  We will use a cool tool called [terminal mixer](http://vicerveza.homeunix.net/~viric/soft/tm) (multiplex terminal), written by Lluis Battle i Rosell. The idea es simple: we run `tm -wt omxplayer`, and then at the same time we can send commands to it from anywhere else by means of `echo -n COMMAND | tm -t`.  This tool is very easily installed by means of `./configure && make && make install`.
+- Send this information to the running `omxplayer`.  We will use a cool tool called [terminal mixer](http://vicerveza.homeunix.net/~viric/soft/tm) (multiplex terminal), written by Lluís Batlle i Rossell. The idea es simple: we run `tm -wt omxplayer`, and then at the same time we can send commands to it from anywhere else by means of `echo -n COMMAND | tm -t`.  This tool is very easily installed by means of `./configure && make && make install`.
 
 This script uses a beautiful feature of bash and other shell interpreters, namely, the *coprocesses*.
 
